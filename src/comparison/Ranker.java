@@ -2,6 +2,7 @@ package comparison;
 
 import java.util.HashMap;
 import java.util.Map;
+import java.util.TreeMap;
 
 public class Ranker<K> {
     Map<K, Double> map;
@@ -52,5 +53,21 @@ public class Ranker<K> {
             }
         }
         return minKey;
+    }
+
+    public K popMax(){
+        K max = getMax();
+        map.remove(max);
+        return max;
+    }
+
+    public K popMin(){
+        K min = getMin();
+        map.remove(min);
+        return min;
+    }
+
+    public Map<K, Double> getMap() {
+        return map;
     }
 }
