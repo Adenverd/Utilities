@@ -5,13 +5,19 @@ import java.util.Map;
 import java.util.TreeMap;
 
 public class Ranker<K> {
-    Map<K, Double> map;
+    private Map<K, Double> map;
+
+    private Double sum;
 
     public Ranker(){
         map = new HashMap<K, Double>();
+        sum = 0.0;
     }
 
     public void zero (K key){
+        if (map.containsKey(key)){
+            sum -= map.get(key);
+        }
         map.put(key, 0.0);
     }
 
@@ -22,6 +28,8 @@ public class Ranker<K> {
         else {
             map.put(key, increaseBy);
         }
+
+        sum += increaseBy;
         return map.get(key);
     }
 
@@ -55,19 +63,29 @@ public class Ranker<K> {
         return minKey;
     }
 
+    public double getProportion(K key){
+        return map.get(key)/sum;
+    }
+
     public K popMax(){
         K max = getMax();
+        sum -= map.get(max);
         map.remove(max);
         return max;
     }
 
     public K popMin(){
         K min = getMin();
+        sum -= map.get(min);
         map.remove(min);
         return min;
     }
 
     public Map<K, Double> getMap() {
         return map;
+    }
+
+    public Double getSum() {
+        return sum;
     }
 }
